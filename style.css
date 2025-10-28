@@ -122,3 +122,41 @@ li span.concluida {
     border-radius: 5px;
     transition: width 0.3s ease;
 }
+
+.progresso-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Linha horizontal com input + barra */
+.progresso-linha {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-progresso {
+    width: 50px;
+    padding: 4px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Barra ocupa o resto da linha */
+.barra-progresso {
+    flex-grow: 1;
+    height: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.barra-interna {
+    height: 100%;
+    width: 0%;
+    background-color: #ffc107;
+    border-radius: 5px;
+    transition: width 0.3s ease;
+}
