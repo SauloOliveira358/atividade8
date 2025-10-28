@@ -97,8 +97,7 @@ progressoContainer.appendChild(progressoLinha);
 
         if (evento.target.tagName === "SPAN") {
             evento.target.classList.toggle("concluida");
-            pendetes -= 1;
-            contador.textContent = `Tarefas Pendentes: ${pendetes}`;
+            
         }
     }
 
