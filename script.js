@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const botaoAdicionar = document.getElementById("botaoAdicionar");
     const campoNovaTarefa = document.getElementById("campoNovaTarefa");
     const listaDeTarefas = document.getElementById("listaDeTarefas");
+    const contador = document.getElementById("contador");
+    let pendetes = 0;
 
     function adicionarTarefa() {
         const textoTarefa = campoNovaTarefa.value.trim(); 
@@ -10,7 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("Por favor, digite uma tarefa.");
             return; 
         }
-
+        pendetes += 1;
+        contador.textContent = `Tarefas Pendentes: ${pendetes}`;
         const itemLista = document.createElement("li");
         const textoSpan = document.createElement("span");
         textoSpan.textContent = textoTarefa;
@@ -57,6 +60,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 itemLista.classList.add("completo");
                 setTimeout(() => {
                     itemLista.remove();
+                    pendetes -= 1;
+            contador.textContent = `Tarefas Pendentes: ${pendetes}`;
                 }, 500); // pequena transição antes de sumir
             }
         });
@@ -81,10 +86,14 @@ document.addEventListener("DOMContentLoaded", function() {
         if (evento.target.classList.contains("deletar")) {
             const itemParaRemover = evento.target.parentElement;
             listaDeTarefas.removeChild(itemParaRemover);
+            pendetes -= 1;
+            contador.textContent = `Tarefas Pendentes: ${pendetes}`;
         }
 
         if (evento.target.tagName === "SPAN") {
             evento.target.classList.toggle("concluida");
+            pendetes -= 1;
+            contador.textContent = `Tarefas Pendentes: ${pendetes}`;
         }
     }
 
