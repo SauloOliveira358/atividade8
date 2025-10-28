@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
         inputProgresso.min = "0";
         inputProgresso.max = "100";
         inputProgresso.value = "0";
+        inputProgresso.step = "10";
         inputProgresso.className = "input-progresso";
 
         const barraProgresso = document.createElement("div");
