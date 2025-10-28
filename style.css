@@ -1,0 +1,91 @@
+/* Estilos gerais para o corpo da página */
+body {
+    font-family: Arial, sans-serif; /* Fonte padrão */
+    background-color: #f0f2f5; /* Cor de fundo suave */
+    display: flex; /* Usa Flexbox para centralizar o container */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    min-height: 100vh; /* Altura mínima de 100% da tela */
+}
+
+/* Estilo do container principal */
+.container {
+    background: #fff;
+    width: 400px; /* Largura fixa */
+    padding: 20px;
+    border-radius: 8px; /* Cantos arredondados */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Sombra suave */
+}
+
+/* Estilo da área de input (que agrupa input e botão) */
+.input-area {
+    display: flex; /* Alinha o input e o botão LADO A LADO */
+    margin-bottom: 20px;
+}
+
+/* Estilo do campo de input */
+#campoNovaTarefa {
+    flex-grow: 1; /* Faz o input crescer e ocupar todo o espaço disponível na linha */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Estilo do botão de adicionar */
+#botaoAdicionar {
+    padding: 10px 15px;
+    background-color: #28a745; /* Verde */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin-left: 10px; /* Espaço entre o input e o botão */
+    cursor: pointer; /* Mãozinha ao passar o mouse */
+}
+
+/* Estilo da lista <ul> */
+ul {
+    list-style: none; /* Remove as "bolinhas" da lista */
+    padding: 0;
+    margin: 0;
+}
+
+/* Estilo de cada item <li> da lista (as tarefas) */
+li {
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    display: flex; /* De novo, flex! */
+    justify-content: space-between; /* Alinha o texto na esquerda e o botão na direita */
+    align-items: center; /* Centraliza verticalmente o texto e o botão */
+}
+
+/* Estilo do <span> dentro do <li> (o texto da tarefa) */
+li span {
+    cursor: pointer; /* Mãozinha, indicando que é clicável (para riscar) */
+}
+
+/* ESTE É O SELETOR CSS MAIS IMPORTANTE PARA O JS.
+  Define o estilo (riscado) para um <span> QUE TAMBÉM
+  tenha a classe 'concluida'.
+  O JavaScript vai adicionar/remover a classe 'concluida'
+  para fazer o efeito de riscar.
+*/
+li span.concluida {
+    text-decoration: line-through; /* O texto riscado */
+    color: #888; /* Cor cinza */
+}
+
+/* Estilo do botão de deletar (o 'X') */
+.deletar {
+    background-color: #dc3545; /* Vermelho */
+    color: white;
+    border: none;
+    border-radius: 50%; /* Faz o botão ficar redondo */
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    font-weight: bold;
+}
