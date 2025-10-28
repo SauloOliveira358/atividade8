@@ -110,18 +110,40 @@ progressoContainer.appendChild(progressoLinha);
     }
 
     function lidarCliqueLista(evento) {
-        if (evento.target.classList.contains("deletar")) {
-            const itemParaRemover = evento.target.parentElement;
-            listaDeTarefas.removeChild(itemParaRemover);
+    // 1) Clique no botão de deletar (X)
+    if (evento.target.classList.contains("deletar")) {
+        const itemParaRemover = evento.target.parentElement;
+        const span = itemParaRemover.querySelector("span");
+
+        // Se a tarefa NÃO está marcada como concluída, reduz o contador
+        if (!span.classList.contains("concluida")) {
             pendetes -= 1;
-            contador.textContent = `Tarefas Pendentes: ${pendetes}`;
+            if (pendetes < 0) pendetes = 0; // segurança extra
         }
 
-        if (evento.target.tagName === "SPAN") {
-            evento.target.classList.toggle("concluida");
-            
-        }
+        // Remove do DOM e atualiza o texto do contador
+        itemParaRemover.remove();
+        contador.textContent = `Tarefas Pendentes: ${pendetes}`;
+        return; // importante: sai aqui para não executar a lógica abaixo
     }
+
+    // 2) Clique no texto da tarefa (SPAN) — marca/desmarca como concluída
+    if (evento.target.tagName === "SPAN") {
+        const span = evento.target;
+        span.classList.toggle("concluida");
+
+        if (span.classList.contains("concluida")) {
+            // Acabou de marcar como concluída → diminui pendentes
+            pendetes -= 1;
+            if (pendetes < 0) pendetes = 0; // proteção
+        } else {
+            // Acabou de desmarcar → volta a ser pendente
+            pendetes += 1;
+        }
+
+        contador.textContent = `Tarefas Pendentes: ${pendetes}`;
+    }
+}
 
     botaoAdicionar.addEventListener("click", adicionarTarefa);
     listaDeTarefas.addEventListener("click", lidarCliqueLista);
