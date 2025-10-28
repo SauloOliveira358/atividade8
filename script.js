@@ -128,21 +128,7 @@ progressoContainer.appendChild(progressoLinha);
     }
 
     // 2) Clique no texto da tarefa (SPAN) — marca/desmarca como concluída
-    if (evento.target.tagName === "SPAN") {
-        const span = evento.target;
-        span.classList.toggle("concluida");
-
-        if (span.classList.contains("concluida")) {
-            // Acabou de marcar como concluída → diminui pendentes
-            pendetes -= 1;
-            if (pendetes < 0) pendetes = 0; // proteção
-        } else {
-            // Acabou de desmarcar → volta a ser pendente
-            pendetes += 1;
-        }
-
-        contador.textContent = `Tarefas Pendentes: ${pendetes}`;
-    }
+   
 }
 
     botaoAdicionar.addEventListener("click", adicionarTarefa);
