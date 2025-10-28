@@ -29,6 +29,15 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("Por favor, digite uma tarefa.");
             return; 
         }
+        
+        const tarefasExistentes = listaDeTarefas.querySelectorAll("li span");
+    for (let tarefa of tarefasExistentes) {
+        if (tarefa.textContent.toLowerCase() === textoTarefa.toLowerCase()) {
+            alert("Essa tarefa já existe na lista!");
+            campoNovaTarefa.value = "";
+            return;
+        }
+    }
         pendetes += 1;
         contador.textContent = `Tarefas Pendentes: ${pendetes}`;
         const itemLista = document.createElement("li");
