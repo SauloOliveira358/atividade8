@@ -4,43 +4,71 @@ document.addEventListener("DOMContentLoaded", function() {
     const campoNovaTarefa = document.getElementById("campoNovaTarefa");
     const listaDeTarefas = document.getElementById("listaDeTarefas");
     const contador = document.getElementById("contador");
-    let pendetes = 0;
+    const seletorPrioridade = document.getElementById("prioridade");
+    let pendentes = 0;
 
     campoNovaTarefa.addEventListener("input", function() {
-    const texto = campoNovaTarefa.value.trim();
-    
-    if (texto === "") {
-        botaoAdicionar.disabled = true;                // desativa o botão
-        botaoAdicionar.style.backgroundColor = "gray"; // cor cinza
-        botaoAdicionar.style.cursor = "not-allowed";   // cursor de bloqueado
-    }else{
-        botaoAdicionar.disabled = false;               // ativa o botão
-        botaoAdicionar.style.backgroundColor = "#0d6efd"; // azul padrão
-        botaoAdicionar.style.cursor = "pointer";       // cursor normal
-    }
+        const texto = campoNovaTarefa.value.trim();
+        if (texto === "") {
+            botaoAdicionar.disabled = true;
+            botaoAdicionar.style.backgroundColor = "gray";
+            botaoAdicionar.style.cursor = "not-allowed";
+        } else {
+            botaoAdicionar.disabled = false;
+            botaoAdicionar.style.backgroundColor = "#0d6efd";
+            botaoAdicionar.style.cursor = "pointer";
+        }
     });
-    
-    botaoAdicionar.disabled = true; // começa desativado
+
+    botaoAdicionar.disabled = true;
     botaoAdicionar.style.backgroundColor = "gray";
 
-
     function adicionarTarefa() {
-        const textoTarefa = campoNovaTarefa.value.trim(); 
-        const tarefasExistentes = listaDeTarefas.querySelectorAll("li span");
-    for (let tarefa of tarefasExistentes) {
-        if (tarefa.textContent.toLowerCase() === textoTarefa.toLowerCase()) {
-            alert("Essa tarefa já existe na lista!");
-            campoNovaTarefa.value = "";
+        const textoTarefa = campoNovaTarefa.value.trim();
+        const prioridade = seletorPrioridade.value;
+
+        if (textoTarefa === "") {
+            alert("Por favor, digite uma tarefa.");
             return;
         }
-    }
-        pendetes += 1;
-        contador.textContent = `Tarefas Pendentes: ${pendetes}`;
+
+        const tarefasExistentes = listaDeTarefas.querySelectorAll("li span");
+        for (let tarefa of tarefasExistentes) {
+            if (tarefa.textContent.toLowerCase() === textoTarefa.toLowerCase()) {
+                alert("Essa tarefa já existe na lista!");
+                campoNovaTarefa.value = "";
+                return;
+            }
+        }
+
+        pendentes += 1;
+        contador.textContent = `Tarefas Pendentes: ${pendentes}`;
+
         const itemLista = document.createElement("li");
         const textoSpan = document.createElement("span");
         textoSpan.textContent = textoTarefa;
 
-        // ======== BLOCO DE PROGRESSO =========
+        // === Tag de prioridade ===
+        const tagPrioridade = document.createElement("span");
+        tagPrioridade.className = "tag-prioridade";
+
+        if (prioridade === "baixa") {
+            tagPrioridade.style.backgroundColor = "#28a745";
+            tagPrioridade.textContent = "Baixa";
+        } else if (prioridade === "media") {
+            tagPrioridade.style.backgroundColor = "#f1af09ff";
+            tagPrioridade.textContent = "Média";
+        } else {
+            tagPrioridade.style.backgroundColor = "#dc3545";
+            tagPrioridade.textContent = "Urgente";
+        }
+
+        const cabecalhoTarefa = document.createElement("div");
+        cabecalhoTarefa.className = "cabecalho-tarefa";
+        cabecalhoTarefa.appendChild(tagPrioridade);
+        cabecalhoTarefa.appendChild(textoSpan);
+
+        // === Progresso ===
         const progressoContainer = document.createElement("div");
         progressoContainer.className = "progresso-container";
 
@@ -58,107 +86,69 @@ document.addEventListener("DOMContentLoaded", function() {
         barraInterna.className = "barra-interna";
         barraProgresso.appendChild(barraInterna);
 
-        // Atualiza a barra conforme o valor digitado
         inputProgresso.addEventListener("input", function() {
             let valor = parseInt(inputProgresso.value);
             if (isNaN(valor) || valor < 0) valor = 0;
             if (valor > 100) valor = 100;
             inputProgresso.value = valor;
 
-            // Atualiza largura da barra
             barraInterna.style.width = valor + "%";
 
-            // Define cor conforme o progresso
             if (valor <= 49) {
-                barraInterna.style.backgroundColor = "#ffc107"; // amarelo
+                barraInterna.style.backgroundColor = "#ffc107";
             } else if (valor <= 80) {
-                barraInterna.style.backgroundColor = "#0d6efd"; // azul
+                barraInterna.style.backgroundColor = "#0d6efd";
             } else if (valor < 100) {
-                barraInterna.style.backgroundColor = "#28a745"; // verde
+                barraInterna.style.backgroundColor = "#28a745";
             }
 
-            // Quando chega a 100%, remove a tarefa
             if (valor === 100 && !itemLista.classList.contains("completo")) {
                 itemLista.classList.add("completo");
                 setTimeout(() => {
                     itemLista.remove();
-                    pendetes -= 1;
-            contador.textContent = `Tarefas Pendentes: ${pendetes}`;
-                }, 500); // pequena transição antes de sumir
+                    pendentes -= 1;
+                    contador.textContent = `Tarefas Pendentes: ${pendentes}`;
+                }, 500);
             }
         });
 
-       const progressoLinha = document.createElement("div");
-progressoLinha.className = "progresso-linha";
+        const progressoLinha = document.createElement("div");
+        progressoLinha.className = "progresso-linha";
+        progressoLinha.appendChild(inputProgresso);
+        progressoLinha.appendChild(barraProgresso);
+        progressoContainer.appendChild(progressoLinha);
 
-progressoLinha.appendChild(inputProgresso);
-progressoLinha.appendChild(barraProgresso);
-
-progressoContainer.appendChild(progressoLinha);
-        // =====================================
-
+        // === Botão deletar ===
         const botaoDeletar = document.createElement("button");
         botaoDeletar.textContent = "X";
-        botaoDeletar.className = "deletar"; 
+        botaoDeletar.className = "deletar";
 
-        itemLista.appendChild(textoSpan);
+        // Monta o item
+        itemLista.appendChild(cabecalhoTarefa);
         itemLista.appendChild(progressoContainer);
         itemLista.appendChild(botaoDeletar);
-
         listaDeTarefas.appendChild(itemLista);
+
         campoNovaTarefa.value = "";
     }
 
     function lidarCliqueLista(evento) {
-    // 1) Clique no botão de deletar (X)
-    if (evento.target.classList.contains("deletar")) {
-        const itemParaRemover = evento.target.parentElement;
-        const span = itemParaRemover.querySelector("span");
-
-        // Se a tarefa NÃO está marcada como concluída, reduz o contador
-        if (!span.classList.contains("concluida")) {
-            pendetes -= 1;
-            if (pendetes < 0) pendetes = 0; // segurança extra
+        if (evento.target.classList.contains("deletar")) {
+            const itemParaRemover = evento.target.parentElement;
+            listaDeTarefas.removeChild(itemParaRemover);
+            pendentes -= 1;
+            contador.textContent = `Tarefas Pendentes: ${pendentes}`;
         }
 
-        // Remove do DOM e atualiza o texto do contador
-        itemParaRemover.remove();
-        contador.textContent = `Tarefas Pendentes: ${pendetes}`;
-        return; // importante: sai aqui para não executar a lógica abaixo
-    }
-
-    // 2) Clique no texto da tarefa (SPAN) — marca/desmarca como concluída
-    if (evento.target.tagName === "SPAN") {
-        const span = evento.target;
-        span.classList.toggle("concluida");
-
-        if (span.classList.contains("concluida")) {
-            // Acabou de marcar como concluída → diminui pendentes
-            pendetes -= 1;
-            if (pendetes < 0) pendetes = 0; // proteção
-        } else {
-            // Acabou de desmarcar → volta a ser pendente
-            pendetes += 1;
+        if (evento.target.tagName === "SPAN") {
+            evento.target.classList.toggle("concluida");
         }
-
-        contador.textContent = `Tarefas Pendentes: ${pendetes}`;
     }
-}
 
     botaoAdicionar.addEventListener("click", adicionarTarefa);
     listaDeTarefas.addEventListener("click", lidarCliqueLista);
-    function desabilitar(){
-        botaoAdicionar.disabled = true;                // desativa o botão
-        botaoAdicionar.style.backgroundColor = "gray"; // cor cinza
-        botaoAdicionar.style.cursor = "not-allowed"; 
-    }
 
     campoNovaTarefa.addEventListener("keypress", function(evento) {
-        if(botaoAdicionar.addEventListener("click",desabilitar))
-        if (evento.key === "Enter") {
-            adicionarTarefa();
-
-        }
+        if (evento.key === "Enter") adicionarTarefa();
     });
-
 });

@@ -22,14 +22,8 @@ body {
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ======== TÍTULO ======== */
@@ -64,6 +58,24 @@ h1 {
     outline: none;
     border-color: #4b3cfa;
     box-shadow: 0 0 0 3px rgba(75, 60, 250, 0.15);
+}
+
+/* ======== SELECT DE PRIORIDADE ======== */
+#prioridade {
+    padding: 10px 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 15px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#prioridade:focus {
+    border-color: #4b3cfa;
+    box-shadow: 0 0 0 3px rgba(75, 60, 250, 0.1);
+    outline: none;
 }
 
 /* ======== BOTÃO ADICIONAR ======== */
@@ -135,6 +147,24 @@ li span.concluida {
     color: #888;
 }
 
+/* ======== CABEÇALHO DA TAREFA ======== */
+.cabecalho-tarefa {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ======== TAG DE PRIORIDADE ======== */
+.tag-prioridade {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 5px;
+    min-width: 60px;
+    text-align: center;
+}
+
 /* ======== BOTÃO DELETAR ======== */
 .deletar {
     position: absolute;
@@ -174,13 +204,6 @@ li span.concluida {
     border-radius: 6px;
     background: #fff;
     font-size: 14px;
-    transition: border 0.2s ease, box-shadow 0.2s ease;
-}
-
-.input-progresso:focus {
-    outline: none;
-    border-color: #4b3cfa;
-    box-shadow: 0 0 0 2px rgba(75, 60, 250, 0.1);
 }
 
 .barra-progresso {
