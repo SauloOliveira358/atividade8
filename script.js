@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const seletorPrioridade = document.getElementById("prioridade");
     let pendentes = 0;
 
+    // Habilita / desabilita o botão conforme o input
     campoNovaTarefa.addEventListener("input", function() {
         const texto = campoNovaTarefa.value.trim();
         if (texto === "") {
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
     botaoAdicionar.disabled = true;
     botaoAdicionar.style.backgroundColor = "gray";
 
+    // ======== FUNÇÃO ADICIONAR TAREFA ========
     function adicionarTarefa() {
         const textoTarefa = campoNovaTarefa.value.trim();
         const prioridade = seletorPrioridade.value;
@@ -53,13 +55,13 @@ document.addEventListener("DOMContentLoaded", function() {
         tagPrioridade.className = "tag-prioridade";
 
         if (prioridade === "baixa") {
-            tagPrioridade.style.backgroundColor = "#28a745";
+            tagPrioridade.style.backgroundColor = "#28a745"; // verde
             tagPrioridade.textContent = "Baixa";
         } else if (prioridade === "media") {
-            tagPrioridade.style.backgroundColor = "#f1af09ff";
+            tagPrioridade.style.backgroundColor = "#2196f3"; // azul (alterável)
             tagPrioridade.textContent = "Média";
         } else {
-            tagPrioridade.style.backgroundColor = "#dc3545";
+            tagPrioridade.style.backgroundColor = "#dc3545"; // vermelho
             tagPrioridade.textContent = "Urgente";
         }
 
@@ -130,14 +132,18 @@ document.addEventListener("DOMContentLoaded", function() {
         listaDeTarefas.appendChild(itemLista);
 
         campoNovaTarefa.value = "";
+        botaoAdicionar.disabled = true; // desativa novamente
+        botaoAdicionar.style.backgroundColor = "gray";
     }
 
+    // ======== FUNÇÃO DE CLIQUE NA LISTA ========
     function lidarCliqueLista(evento) {
         if (evento.target.classList.contains("deletar")) {
             const itemParaRemover = evento.target.parentElement;
             listaDeTarefas.removeChild(itemParaRemover);
             pendentes -= 1;
             contador.textContent = `Tarefas Pendentes: ${pendentes}`;
+            return;
         }
 
         if (evento.target.tagName === "SPAN") {
@@ -145,10 +151,13 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    // ======== EVENTOS ========
     botaoAdicionar.addEventListener("click", adicionarTarefa);
     listaDeTarefas.addEventListener("click", lidarCliqueLista);
 
     campoNovaTarefa.addEventListener("keypress", function(evento) {
-        if (evento.key === "Enter") adicionarTarefa();
+        if (evento.key === "Enter" && !botaoAdicionar.disabled) {
+            adicionarTarefa();
+        }
     });
 });
