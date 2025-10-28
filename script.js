@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             // Quando chega a 100%, remove a tarefa
-            if (valor === 100) {
+            if (valor === 100 && !itemLista.classList.contains("completo")) {
                 itemLista.classList.add("completo");
                 setTimeout(() => {
                     itemLista.remove();
