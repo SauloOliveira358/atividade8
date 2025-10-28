@@ -8,28 +8,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
     campoNovaTarefa.addEventListener("input", function() {
     const texto = campoNovaTarefa.value.trim();
+    
     if (texto === "") {
         botaoAdicionar.disabled = true;                // desativa o botão
         botaoAdicionar.style.backgroundColor = "gray"; // cor cinza
         botaoAdicionar.style.cursor = "not-allowed";   // cursor de bloqueado
-    } else {
+    }else{
         botaoAdicionar.disabled = false;               // ativa o botão
         botaoAdicionar.style.backgroundColor = "#0d6efd"; // azul padrão
         botaoAdicionar.style.cursor = "pointer";       // cursor normal
     }
     });
-
+    
     botaoAdicionar.disabled = true; // começa desativado
     botaoAdicionar.style.backgroundColor = "gray";
 
 
     function adicionarTarefa() {
         const textoTarefa = campoNovaTarefa.value.trim(); 
-        if (textoTarefa === "") {
-            alert("Por favor, digite uma tarefa.");
-            return; 
-        }
-        
         const tarefasExistentes = listaDeTarefas.querySelectorAll("li span");
     for (let tarefa of tarefasExistentes) {
         if (tarefa.textContent.toLowerCase() === textoTarefa.toLowerCase()) {
@@ -129,10 +125,17 @@ progressoContainer.appendChild(progressoLinha);
 
     botaoAdicionar.addEventListener("click", adicionarTarefa);
     listaDeTarefas.addEventListener("click", lidarCliqueLista);
+    function desabilitar(){
+        botaoAdicionar.disabled = true;                // desativa o botão
+        botaoAdicionar.style.backgroundColor = "gray"; // cor cinza
+        botaoAdicionar.style.cursor = "not-allowed"; 
+    }
 
     campoNovaTarefa.addEventListener("keypress", function(evento) {
+        if(botaoAdicionar.addEventListener("click",desabilitar))
         if (evento.key === "Enter") {
             adicionarTarefa();
+
         }
     });
 
