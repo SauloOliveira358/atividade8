@@ -61,8 +61,13 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        progressoContainer.appendChild(inputProgresso);
-        progressoContainer.appendChild(barraProgresso);
+       const progressoLinha = document.createElement("div");
+progressoLinha.className = "progresso-linha";
+
+progressoLinha.appendChild(inputProgresso);
+progressoLinha.appendChild(barraProgresso);
+
+progressoContainer.appendChild(progressoLinha);
         // =====================================
 
         const botaoDeletar = document.createElement("button");
